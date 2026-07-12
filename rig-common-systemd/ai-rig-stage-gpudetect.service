@@ -1,0 +1,11 @@
+[Unit]
+Description=AI Rig Stage 3 - GPU detect / tensor-split
+After=ai-rig-stage-cuda-llama.service
+Requires=ai-rig-stage-cuda-llama.service
+ConditionPathExists=/var/lib/ai-rig/stage-cuda-llama-done
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/30-gpu-detect.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target

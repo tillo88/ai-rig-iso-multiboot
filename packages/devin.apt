@@ -1,0 +1,5 @@
+# Extra APT per DEVIN (coding/debug agent)
+ripgrep
+fd-find
+nodejs
+npm

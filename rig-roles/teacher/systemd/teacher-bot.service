@@ -1,0 +1,18 @@
+[Unit]
+Description=TEACHER Telegram Bot (dedicato al ruolo TEACHER: watchdog + /ask)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# root: /restart deve poter agire su systemctl (riavvio llama-server@teacher).
+User=root
+Environment=TEACHER_BOT_CONFIG=/etc/teacher-bot/config.env
+# Lo script atterra in /usr/local/bin (vedi 05-generate-nocloud.sh late-commands).
+# Bot stdlib-only: basta il python3 di sistema, nessun venv richiesto.
+ExecStart=/usr/bin/python3 /usr/local/bin/teacher-bot.py
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

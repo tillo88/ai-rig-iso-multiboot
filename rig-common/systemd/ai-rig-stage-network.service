@@ -1,0 +1,10 @@
+[Unit]
+Description=AI Rig - Static network (post-install)
+After=network-online.target
+ConditionPathExists=!/var/lib/ai-rig/stage-network-done
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/15-static-network.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target

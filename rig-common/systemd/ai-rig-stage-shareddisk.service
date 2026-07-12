@@ -1,0 +1,9 @@
+[Unit]
+Description=AI Rig - 4th shared disk mount (AutoMem + KV sessions)
+After=ai-rig-stage-network.service
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/50-shared-disk.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target

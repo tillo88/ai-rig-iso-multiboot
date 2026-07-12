@@ -1,0 +1,2 @@
+# venv dedicato HERMES (client HTTP verso AutoMem, che gira come servizio Docker separato)
+openai>=1.0

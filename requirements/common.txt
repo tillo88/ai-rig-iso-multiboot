@@ -1,0 +1,3 @@
+# venv Python comune (creato in /opt/venv-common), NON per pacchetti di sistema
+requests>=2.31
+pyyaml>=6.0

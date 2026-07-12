@@ -1,0 +1,19 @@
+[Unit]
+Description=HERMES Telegram Bot (dedicato al ruolo HERMES: chat con memoria)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# tillo: Hermes-Agent e la sua config (~/.hermes) sono installati per questo utente.
+User=tillo
+WorkingDirectory=/home/tillo
+Environment=HERMES_BOT_CONFIG=/etc/hermes-bot/config.env
+# Lo script atterra in /usr/local/bin (vedi 05-generate-nocloud.sh late-commands).
+# Bot stdlib-only: basta il python3 di sistema.
+ExecStart=/usr/bin/python3 /usr/local/bin/hermes-bot.py
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+[Unit]
+Description=DEVIN Telegram Bot (dedicato al ruolo DEVIN)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tillo
+Environment=DEVIN_BOT_CONFIG=/etc/devin-bot/config.env
+# FIX: lo script atterra in /usr/local/bin (05-generate-nocloud.sh late-commands),
+# non in /opt/devin-bot (che non viene mai popolato). Bot stdlib-only -> python3
+# di sistema, coerente con teacher-bot/hermes-bot.
+ExecStart=/usr/bin/python3 /usr/local/bin/devin-bot.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

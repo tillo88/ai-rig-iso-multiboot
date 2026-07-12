@@ -1,0 +1,13 @@
+[Unit]
+Description=AI Rig Stage 4 - Role provisioning (model + llama-server)
+After=ai-rig-stage-gpudetect.service ai-rig-stage-network.service ai-rig-stage-wol.service ai-rig-stage-automem.service
+Requires=ai-rig-stage-gpudetect.service
+ConditionPathExists=/var/lib/ai-rig/stage-gpudetect-done
+ConditionPathExists=!/var/lib/ai-rig/stage-role-done
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/role-provision.sh
+RemainAfterExit=yes
+TimeoutStartSec=1200
+[Install]
+WantedBy=multi-user.target

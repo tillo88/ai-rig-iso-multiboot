@@ -1,0 +1,15 @@
+[Unit]
+Description=AI Rig Telegram WOL Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/ai-rig-wol-bot/ai-rig-wol-bot.py
+Restart=always
+RestartSec=10
+Environment="AI_RIG_BOT_CONFIG=/etc/ai-rig-bot/config.env"
+
+[Install]
+WantedBy=multi-user.target

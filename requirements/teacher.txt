@@ -1,0 +1,3 @@
+# venv dedicato TEACHER
+openai>=1.0
+pillow>=10.0

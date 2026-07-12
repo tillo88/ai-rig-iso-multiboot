@@ -1,0 +1,11 @@
+[Unit]
+Description=AI Rig Stage 1 - NVIDIA Driver
+After=network-online.target
+ConditionPathExists=!/var/lib/ai-rig/stage-driver-done
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/10-driver-stage.sh
+RemainAfterExit=yes
+TimeoutStartSec=600
+[Install]
+WantedBy=multi-user.target

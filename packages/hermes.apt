@@ -1,0 +1,9 @@
+# Extra APT per HERMES (chat + memoria)
+sqlite3
+# nodejs/npm: servono per 'npx' che lancia il server MCP di AutoMem (mcp-automem) —
+# bug reale: prima erano solo su Devin, Hermes ne ha bisogno altrettanto.
+nodejs
+npm
+# ComfyUI/PyTorch (anche headless) spesso hanno bisogno di queste anche senza X11
+libgl1
+libglib2.0-0

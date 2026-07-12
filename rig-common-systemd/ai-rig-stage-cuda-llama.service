@@ -1,0 +1,13 @@
+[Unit]
+Description=AI Rig Stage 2 - CUDA Toolkit + llama.cpp
+After=ai-rig-stage-driver.service
+Requires=ai-rig-stage-driver.service
+ConditionPathExists=/var/lib/ai-rig/stage-driver-done
+ConditionPathExists=!/var/lib/ai-rig/stage-cuda-llama-done
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/20-cuda-llama-stage.sh
+RemainAfterExit=yes
+TimeoutStartSec=1800
+[Install]
+WantedBy=multi-user.target

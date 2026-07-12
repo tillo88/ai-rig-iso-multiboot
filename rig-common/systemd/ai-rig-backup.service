@@ -1,0 +1,5 @@
+[Unit]
+Description=AI Rig - Backup periodico config su 4° disco
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/70-backup.sh

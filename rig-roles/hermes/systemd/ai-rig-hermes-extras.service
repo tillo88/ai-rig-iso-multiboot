@@ -1,0 +1,15 @@
+[Unit]
+Description=AI Rig - Hermes extras (Hermes-Agent + ComfyUI)
+After=ai-rig-stage-role.service ai-rig-stage-automem.service
+Requires=ai-rig-stage-role.service
+ConditionPathExists=/var/lib/ai-rig/stage-role-done
+ConditionPathExists=!/var/lib/ai-rig/stage-hermes-extras-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/40-hermes-extras.sh
+RemainAfterExit=yes
+TimeoutStartSec=1800
+
+[Install]
+WantedBy=multi-user.target

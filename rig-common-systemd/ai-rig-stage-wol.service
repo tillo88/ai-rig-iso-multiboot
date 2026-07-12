@@ -1,0 +1,9 @@
+[Unit]
+Description=AI Rig - WOL persistent setup
+After=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/40-wol-setup.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
