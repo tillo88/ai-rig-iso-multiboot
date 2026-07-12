@@ -1,0 +1,73 @@
+{
+  "context": {
+    "max_chars": 100000,
+    "semantic_search_enabled": true
+  },
+  "models": {
+    "rig_host": "192.168.1.100",
+    "rig_port": 8080,
+    "rig_mac": "2c:f0:5d:56:08:bc",
+    "rig_primary": true,
+    "local_role": "chat_and_autocomplete_only",
+    "local_test_mode": true,
+    "local_test_mode_note": "TEMPORANEO: rig non ancora arrivato. Con true, il locale avvia anche il planner/reasoning (oltre al coder) per poter testare Mantenimento + Zero-Shot Scaffolding end-to-end. Rimettere false quando il rig e' online.",
+
+    "wol_enabled": true,
+    "wol_port": 9,
+    "wol_throttle_seconds": 300,
+    "rig_circuit_breaker": {
+      "enabled": true,
+      "threshold": 3,
+      "cooldown_seconds": 60
+    },
+
+    "serialize_vram_heavy_models": false,
+    "vram_swap_threshold_mb": 2048,
+    "vram_watchdog_interval": 30,
+
+    "rig_models": {
+      "unified": "Ornith-1.0-35B-A3B-MXFP4_MOE_Q8_0_F16-Imatrix",
+      "vision_enabled": false,
+      "note": "Un solo llama-server sul rig (porta 8080, ruolo DEVIN del progetto ai-rig-iso-build): Ornith serve coding+reasoning nella stessa istanza (self-scaffolding, non serve splittare per ruolo). Niente vision qui: e' compito dei ruoli Hermes/Teacher (altro disco, non attivo insieme a DEVIN)."
+    },
+    "rig_ctx_size": 12288,
+    "rig_engine_note": "Motore: beellama (fork llama.cpp con KV cache TurboQuant, vedi ai-rig-iso-build/config/rig.env) o mainline — intercambiabili via swap-llama-flavor.sh sul rig, trasparente per DEVIN (stessa API OpenAI-compatible). --jinja richiesto per il chat template di Ornith.",
+
+    "local_models_dir": "/home/tillo/devin_ai_ide/devin/devin_models",
+    "llama_server_path": "/home/tillo/.unsloth/llama.cpp/build/bin/llama-server",
+    "auto_start_local": true,
+    "local_models": {
+      "coder": {
+        "file": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+        "fallback_file": "qwen2.5-coder-7b-instruct-q5_k_m.gguf",
+        "port": 8000,
+        "ctx_size": 8192,
+        "n_gpu_layers": -1,
+        "description": "Backup locale: SOLO autocomplete + chat leggera quando il rig (primario) è offline. Non usato per scaffolding/debug pesante."
+      },
+      "reasoning": {
+        "file": "Qwen3.5-14B-A3B-Claude-Opus-Reasoning-Distilled-4.6-MXFP4_MOE.gguf",
+        "fallback_file": "qwen3-14b-q4_k_m.gguf",
+        "port": 8001,
+        "ctx_size": 8192,
+        "n_gpu_layers": -1,
+        "description": "Non avviato di default (rig primario). Parte in locale SOLO se local_test_mode=true (vedi sopra) — usato per testare Mantenimento/Scaffolding finche' il rig non e' online.",
+        "vision": {
+          "enabled": true,
+          "mmproj": "Qwen3.5-35B-A3B-Claude-Opus-Reasoning-Distilled-4.6-mmproj-q8_0.gguf"
+        }
+      }
+    }
+  },
+  "web_search": {
+    "provider": "tinyfish",
+    "tinyfish_api_key_env": "TINYFISH_API_KEY",
+    "searxng_url": "http://192.168.1.100:8888",
+    "note": "Default pragmatico su TinyFish (key già disponibile via env var). Consigliato passare a provider: 'searxng' non appena il container self-hosted è su (privacy: nessuna query esce verso terzi). Swap richiede solo il cambio di questo campo, vedi devin/ai/web_search.py."
+  },
+  "chat": {
+    "system_prompt": "",
+    "max_history_messages": 20,
+    "note": "system_prompt vuoto di default = chat generica (nessun ruolo forzato). Personalizzalo qui SOLO se vuoi un'identita' fissa (es. 'Sei l'assistente di DEVIN AI IDE...'); resta comunque per-chat, non hardcoded nel codice. max_history_messages limita quanti turni passati vengono rimandati al modello ad ogni richiesta (protezione OOM/contesto locale limitato)."
+  }
+}

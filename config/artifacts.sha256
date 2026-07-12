@@ -1,0 +1,35 @@
+# =============================================================================
+# config/artifacts.sha256 — checksum SHA-256 degli artifact scaricati/forniti.
+# Formato: standard `sha256sum` -> "<hash>  <nome-file>" (DUE spazi).
+# Il match e' per BASENAME del file (non per percorso).
+#
+# A cosa serve: build-iso.sh verifica ogni artifact contro questo file.
+#   - hash presente e combacia  -> OK
+#   - hash presente ma diverso   -> ERRORE SEMPRE (download corrotto/manomesso)
+#   - hash assente               -> warning (in build normale) / ERRORE (in --production)
+#
+# Come generare le righe: scarica/individua il file e lancia
+#     sha256sum <file>
+# poi incolla qui la riga. Per l'ISO Ubuntu il valore ufficiale e' su
+# https://releases.ubuntu.com/24.04/SHA256SUMS
+#
+# Le righe che iniziano con # sono ignorate: togli il # e metti l'hash reale.
+# (NB: se cambi un modello, aggiorna anche l'hash qui — verify_sha lo controlla.)
+# =============================================================================
+
+# --- ISO base -----------------------------------------------------------------
+e907d92eeec9df64163a7e454cbc8d7755e8ddc7ed42f99dbc80c40f1a138433  ubuntu-24.04.4-live-server-amd64.iso
+
+# --- Driver / CUDA (salvati con questi nomi da build-iso.sh) -------------------
+32c85d99b0f640c9501f61b39ddad208fd0288d015c4fbc5fd0435c07783fa77  nvidia-driver.run
+610867dcd6d94c4e36c4924f1d01b9db28ec08164e8af6c764f21b84200695f8  cuda-toolkit.run
+
+# --- Modelli GGUF -------------------------------------------------------------
+# devin
+b6efb964feb857c3532ed908f6cbb768fc8254992abf2c719b91adffe5c0a4e1  Ornith-1.0-35B-A3B-MXFP4_MOE_Q8_0_F16-Imatrix.gguf
+# teacher (modello + mmproj)
+d807ada6906b25366766a28dfbae02807c85d009963372318858a7ffca5252e5  Qwen_Qwen3-VL-30B-A3B-Thinking-Q6_K_L.gguf
+87f9c3a232bc1616409eff5c77372972a696dade1a0dc22d13ce1ccd400ddc7e  mmproj-Qwen_Qwen3-VL-30B-A3B-Thinking-bf16.gguf
+# hermes (modello + mmproj)
+2fd242dbc5bf8ff29201ed356aef459fc24838d6f47697e132bc6541d738a1ae  Qwen3.6-40B-Deck-Opus-NEO-CODE-HERE-2T-OT-Q6_K.gguf
+fdc443e974cad1f61c45af1cfd5580855855ddce0d6c14cc500a5714c486ac1d  mmproj-F32.gguf
